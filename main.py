@@ -39,6 +39,7 @@ class StringManipulationAlternateCase(StringManipulation):
         print(str_concate)
         return str_concate
 
+
 class SetPathToFile:
     """define destination absolute path"""
 
