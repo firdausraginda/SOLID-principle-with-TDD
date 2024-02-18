@@ -1,6 +1,7 @@
 import pytest
 from testfixtures import TempDirectory
-from main import StringManipulationUpperCase, StringManipulationAlternateCase, WriteCSV, apply_str_manipulations
+import pathlib
+from main import StringManipulationUpperCase, StringManipulationAlternateCase, SetPathToFile, WriteCSV, apply_str_manipulations
 
 
 # StringManipulationUpperCase ------------------------------------
@@ -49,6 +50,35 @@ def test_string_manipulation_alternate_case_integer_value():
     with pytest.raises(TypeError):
         obj = StringManipulationAlternateCase(str_input)
         obj.manipulate_string()
+
+
+# SetPathToFile ------------------------------------
+def init_test_set_path_to_file(dest_file_name):
+    current_path = pathlib.Path(__file__).absolute()
+    destination_path = current_path.parent.joinpath(dest_file_name)
+    return destination_path
+
+def test_set_path_to_file_correct():
+    dest_file_name = "output_test.csv"
+    destination_path = init_test_set_path_to_file(dest_file_name)
+    obj = SetPathToFile()
+    assert obj.set_destination_file_path(dest_file_name) == destination_path
+
+def test_set_path_to_file_null_value():
+    dest_file_name = None
+
+    with pytest.raises(Exception):
+        destination_path = init_test_set_path_to_file(dest_file_name)
+        obj = SetPathToFile()
+        assert obj.set_destination_file_path(dest_file_name) == destination_path
+
+def test_set_path_to_file_integer_value():
+    dest_file_name = 99
+
+    with pytest.raises(Exception):
+        destination_path = init_test_set_path_to_file(dest_file_name)
+        obj = SetPathToFile()
+        assert obj.set_destination_file_path(dest_file_name) == destination_path
 
 
 # WriteCSV ------------------------------------
