@@ -7,7 +7,10 @@ class StringManipulation(ABC):
     """abstract class of string manipulation"""
 
     def __init__(self, str_input: str) -> None:
-        self.str_input = str_input
+        if isinstance(str_input, str):
+            self.str_input = str_input
+        else:
+            raise TypeError("Only string allowed")
 
     @abstractmethod
     def manipulate_string(self) -> str:
