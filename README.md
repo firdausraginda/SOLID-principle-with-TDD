@@ -18,12 +18,12 @@ pip3 install -r requirements.txt
 ```
 
 4. execute test
-all test
+* all test
 ```
 pytest test_main.py
 ```
 
-certain test
+* certain test
 ```
 pytest test_main.py::test_write_csv_empty_sting
 ```
