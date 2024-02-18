@@ -1,10 +1,15 @@
 import pytest
 from testfixtures import TempDirectory
 import pathlib
-from main import StringManipulationUpperCase, StringManipulationAlternateCase, SetPathToFile, WriteCSV, apply_str_manipulations
+from main import StringManipulation, StringManipulationUpperCase, StringManipulationAlternateCase, SetPathToFile, WriteCSV, apply_str_manipulations
 
 
 # StringManipulationUpperCase ------------------------------------
+def test_string_manipulation_upper_case_instance():
+    str_input = "HaPPy day"
+    obj = StringManipulationUpperCase(str_input)
+    assert isinstance(obj, StringManipulation)
+
 def test_string_manipulation_upper_case_correct():
     str_input = "HaPPy day"
     obj = StringManipulationUpperCase(str_input)
@@ -29,6 +34,11 @@ def test_string_manipulation_upper_case_integer_value():
 
 
 # StringManipulationAlternateCase ------------------------------------
+def test_string_manipulation_alternate_case_instance():
+    str_input = "HaPPy day"
+    obj = StringManipulationAlternateCase(str_input)
+    assert isinstance(obj, StringManipulation)
+
 def test_string_manipulation_alternate_case_correct():
     str_input = "HaPPy day"
     obj = StringManipulationAlternateCase(str_input)
