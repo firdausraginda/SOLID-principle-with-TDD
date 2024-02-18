@@ -39,23 +39,21 @@ class StringManipulationAlternateCase(StringManipulation):
         print(str_concate)
         return str_concate
 
-
-class WriteCSV:
-    """contain logic to generate CSV file"""
+class SetPathToFile:
+    """define destination absolute path"""
 
     def set_destination_file_path(self, dest_file_name: str) -> str:
-        """define destination absolute path"""
-
         current_path = pathlib.Path(__file__).absolute()
         destination_path = current_path.parent.joinpath(dest_file_name)
         return destination_path
-    
-    def write_str_to_csv(self, list_str_input: list) -> str:
-        """generate CSV file"""
 
+
+class WriteCSV:
+    """contain logic to generate CSV file"""
+    
+    def write_str_to_csv(self, dest_path_csv: str, list_str_input: list) -> str:
         try:
             list_str_input = [item for item in list_str_input]
-            dest_path_csv = self.set_destination_file_path("manipulated_string_result.csv")
             with open(dest_path_csv, "w") as csv_file:
                 csv_writer = csv.writer(csv_file)
                 csv_writer.writerows(list_str_input)
@@ -77,5 +75,9 @@ if __name__ == "__main__":
                               StringManipulationAlternateCase(str_input)]
     list_manipulation_result = apply_str_manipulations(list_str_manipulations)
     
+    obj_path_file = SetPathToFile()
+    dest_file_name = "manipulated_string_result.csv"
+    path_file = obj_path_file.set_destination_file_path(dest_file_name)
+    
     obj_write_csv = WriteCSV()
-    obj_write_csv.write_str_to_csv(list_manipulation_result)
+    obj_write_csv.write_str_to_csv(path_file, list_manipulation_result)

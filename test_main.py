@@ -1,4 +1,5 @@
 import pytest
+from testfixtures import TempDirectory
 from main import StringManipulationUpperCase, StringManipulationAlternateCase, WriteCSV, apply_str_manipulations
 
 
@@ -50,20 +51,50 @@ def test_string_manipulation_alternate_case_integer_value():
         obj.manipulate_string()
 
 
-# # WriteCSV ------------------------------------
-# def init_test_write_csv():
-#     str_input = "hello world"
-#     list_str_manipulations = [StringManipulationUpperCase(str_input), 
-#                               StringManipulationAlternateCase(str_input)]
-#     list_manipulation_result = apply_str_manipulations(list_str_manipulations)
+# WriteCSV ------------------------------------
+def init_test_write_csv(str_input):
+    list_str_manipulations = [StringManipulationUpperCase(str_input), 
+                              StringManipulationAlternateCase(str_input)]
+    list_manipulation_result = apply_str_manipulations(list_str_manipulations)
 
-#     return list_manipulation_result
+    return list_manipulation_result
 
-# def test_write_csv_correct():
-#     init_result = init_test_write_csv()
+def test_write_csv_correct():
+    str_input = "happy day"
+    list_manipulation_result = init_test_write_csv(str_input)
     
-#     obj_write_csv = WriteCSV()
-#     obj_write_csv.write_str_to_csv(init_result)
+    obj_write_csv = WriteCSV()
+    dest_file_name = "output.csv"
+    with TempDirectory() as root:
+        dest_temp_path = root / dest_file_name
+        obj_write_csv.write_str_to_csv(dest_temp_path, list_manipulation_result)
+
+        f = open(dest_temp_path)
+        assert f.read() == "H,A,P,P,Y, ,D,A,Y\nh,A,p,P,y, ,d,A,y\n"
+
+def test_write_csv_empty_sting():
+    str_input = ""
+    list_manipulation_result = init_test_write_csv(str_input)
+    
+    obj_write_csv = WriteCSV()
+    dest_file_name = "output.csv"
+    with TempDirectory() as root:
+        dest_temp_path = root / dest_file_name
+        obj_write_csv.write_str_to_csv(dest_temp_path, list_manipulation_result)
+
+        f = open(dest_temp_path)
+        assert f.read() == "\n\n"
+
+def test_write_csv_wrong_path():
+    str_input = "happy day"
+    list_manipulation_result = init_test_write_csv(str_input)
+    
+    with pytest.raises(Exception):
+        obj_write_csv = WriteCSV()
+        dest_file_name = "output.csv"
+        with TempDirectory() as root:
+            dest_temp_path = root / dest_file_name
+            obj_write_csv.write_str_to_csv("alksmda/ajk", list_manipulation_result)
 
 
 # apply_str_manipulations ------------------------------------
